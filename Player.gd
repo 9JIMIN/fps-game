@@ -42,15 +42,12 @@ func _physics_process(delta):
 	
 	full_contact = ground_check.is_colliding()
 	
-	if Input.is_action_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot"):
 		if aimcast.is_colliding():
-			var bullet = get_world().direct_space_state
-			var collision = bullet.intersect_ray(muzzle.global_transform.origin, aimcast.get_collision_point())
-#
-			if collision:
-				var target = collision.collider
-				if target.is_in_group("Enemy"):
-					target.health -= 50
+			var b = bullet.instance()
+			muzzle.add_child(b)
+			b.look_at(aimcast.get_collision_point(), Vector3.UP)
+			b.shoot = true
 	
 	if not is_on_floor():
 		gravity_vec += Vector3.DOWN * gravity * delta
