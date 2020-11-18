@@ -22,6 +22,10 @@ var gravity_vec = Vector3()
 
 onready var camera = $CamRoot
 onready var ground_check = $GroundCheck
+onready var aimcast = $CamRoot/Camera/AimCast
+onready var muzzle = $CamRoot/Gun/Muzzle
+
+onready var bullet = preload("res://Bullet.tscn")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -37,6 +41,16 @@ func _physics_process(delta):
 	direction = Vector3()
 	
 	full_contact = ground_check.is_colliding()
+	
+	if Input.is_action_pressed("shoot"):
+		if aimcast.is_colliding():
+			var bullet = get_world().direct_space_state
+			var collision = bullet.intersect_ray(muzzle.global_transform.origin, aimcast.get_collision_point())
+#
+			if collision:
+				var target = collision.collider
+				if target.is_in_group("Enemy"):
+					target.health -= 50
 	
 	if not is_on_floor():
 		gravity_vec += Vector3.DOWN * gravity * delta
