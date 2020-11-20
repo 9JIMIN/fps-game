@@ -25,7 +25,7 @@ onready var ground_check = $GroundCheck
 onready var aimcast = $CamRoot/Camera/AimCast
 onready var muzzle = $CamRoot/Gun/Muzzle
 
-onready var bullet = preload("res://Bullet.tscn")
+onready var bullet = preload("res://assets/Bullet.tscn")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -58,7 +58,6 @@ func _physics_process(delta):
 	else:
 		gravity_vec = -get_floor_normal()
 		h_acc = normal_acc
-		
 	if Input.is_action_just_pressed("jump") and (is_on_floor() or ground_check.is_colliding()):
 		gravity_vec = Vector3.UP * jump
 	

@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Level.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Enemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://level/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://enemy/Enemy.tscn" type="PackedScene" id=3]
 
 [node name="Main" type="Spatial"]
 
@@ -12,4 +12,4 @@
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.8303, 0 )
 
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4, -34 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.74386, -34 )
