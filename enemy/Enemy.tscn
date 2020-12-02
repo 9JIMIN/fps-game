@@ -61,8 +61,8 @@ surfaces/0 = {
 "vertex_count": 96
 }
 
-[sub_resource type="CylinderShape" id=6]
-radius = 2.0
+[sub_resource type="CylinderShape" id=4]
+radius = 1.5
 height = 5.0
 
 [sub_resource type="SphereShape" id=5]
@@ -92,9 +92,9 @@ material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( -1, 0, 3.25841e-07, 0, 1, 0, -3.25841e-07, 0, -1, 0, 1.5, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
-[node name="RayCast" type="RayCast" parent="."]
+[node name="AimCast" type="RayCast" parent="."]
 enabled = true
 cast_to = Vector3( 0, 0, -30 )
 
@@ -105,7 +105,9 @@ shape = SubResource( 5 )
 
 [node name="Eyes" type="Spatial" parent="."]
 
+[node name="Muzzle" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.88664 )
+
 [node name="ShootTimer" type="Timer" parent="."]
 [connection signal="body_entered" from="SightRange" to="." method="_on_SightRange_body_entered"]
-[connection signal="body_exited" from="SightRange" to="." method="_on_SightRange_body_exited"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_Timer_timeout"]
