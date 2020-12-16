@@ -12,7 +12,7 @@ func _physics_process(delta):
 		apply_impulse(transform.basis.z, -transform.basis.z * SPEED)
 
 func _on_Area_body_entered(body):
-	if body.is_in_group('Enemy'):
+	if body.is_in_group('Enemy') or body.is_in_group("Player"):
 		body.update_bar()
 		body.health -= DAMAGE
 		queue_free()

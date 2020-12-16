@@ -20,7 +20,6 @@ onready var muzzle = $Muzzle
 onready var shoot_timer = $ShootTimer
 onready var bullet = preload("res://assets/Bullet.tscn")
 
-onready var health_bar3d = $HealthBar3D
 onready var health_bar2d = $HealthBar3D/Viewport/HealthBar2D
 onready var bar_green = preload("res://assets/progressbar/green.png")
 onready var bar_yellow = preload("res://assets/progressbar/yellow.png")
