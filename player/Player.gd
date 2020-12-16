@@ -1,10 +1,10 @@
 extends KinematicBody
 
-# move speed
-var speed = 20
+# move walk_speed
+var walk_speed = 20
 var jump = 10
 
-# mouse speed
+# mouse walk_speed
 var mouse_sensitivity = 0.5
 
 # acceleration
@@ -22,6 +22,7 @@ onready var camera = $CamRoot
 onready var ground_check = $GroundCheck
 onready var aimcast = $CamRoot/Camera/AimCast
 onready var muzzle = $CamRoot/Gun/Muzzle
+onready var shoot_ready = $CamRoot/Gun/Timer
 
 onready var bullet = preload("res://assets/Bullet.tscn")
 
@@ -35,16 +36,8 @@ func _input(event):
 		camera.rotation.x = clamp(camera.rotation.x, deg2rad(-90), deg2rad(90))
 		
 func _physics_process(delta):
-	
 	direction = Vector3()
-	
-	# 총알 쏘기 
-	if Input.is_action_just_pressed("shoot") and aimcast.is_colliding():
-		var b = bullet.instance()
-		muzzle.add_child(b)
-		b.look_at(aimcast.get_collision_point(), Vector3.UP)
-		b.shoot = true
-	
+
 	# 공중, 바닥 가속도 설정 
 	if not is_on_floor():
 		gravity_vec += Vector3.DOWN * gravity * delta
@@ -56,7 +49,6 @@ func _physics_process(delta):
 		gravity_vec = -get_floor_normal()
 		h_acc = normal_acc
 	
-	# 플레이어 기본 조작 
 	if Input.is_action_just_pressed("jump") and (is_on_floor() or ground_check.is_colliding()):
 		gravity_vec = Vector3.UP * jump
 	if Input.is_action_pressed("move_forward"):
@@ -67,9 +59,16 @@ func _physics_process(delta):
 		direction -= transform.basis.x
 	elif Input.is_action_pressed("move_right"):
 		direction += transform.basis.x
+	# 총알 쏘기 
+	if Input.is_action_pressed("shoot") and aimcast.is_colliding() and shoot_ready.is_stopped():
+		shoot_ready.start()
+		var b = bullet.instance()
+		muzzle.add_child(b)
+		b.look_at(aimcast.get_collision_point(), Vector3.UP)
+		b.shoot = true
 	
 	direction = direction.normalized()
-	h_velocity = lerp(h_velocity, direction * speed, h_acc * delta)
+	h_velocity = lerp(h_velocity, direction * walk_speed, h_acc * delta)
 	movement.z = h_velocity.z + gravity_vec.z # x, z는 수평을 이루는 축.
 	movement.x = h_velocity.x + gravity_vec.x
 	movement.y = gravity_vec.y

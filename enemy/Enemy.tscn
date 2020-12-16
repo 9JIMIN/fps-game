@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://enemy/Enemy.gd" type="Script" id=1]
 [ext_resource path="res://enemy/Material.material" type="Material" id=2]
 [ext_resource path="res://enemy/eye.material" type="Material" id=3]
+[ext_resource path="res://assets/progressbar/green.png" type="Texture" id=4]
+[ext_resource path="res://enemy/HealthBar3D.gd" type="Script" id=5]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Cube"
@@ -66,7 +68,7 @@ radius = 1.5
 height = 5.0
 
 [sub_resource type="SphereShape" id=5]
-radius = 30.0
+radius = 20.0
 
 [node name="Enemy" type="KinematicBody" groups=[
 "Enemy",
@@ -109,5 +111,24 @@ shape = SubResource( 5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.88664 )
 
 [node name="ShootTimer" type="Timer" parent="."]
+
+[node name="HealthBar3D" type="Sprite3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.52482, 0 )
+billboard = 1
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+
+[node name="Viewport" type="Viewport" parent="HealthBar3D"]
+size = Vector2( 200, 26 )
+transparent_bg = true
+usage = 0
+render_target_v_flip = true
+
+[node name="HealthBar2D" type="TextureProgress" parent="HealthBar3D/Viewport"]
+margin_right = 40.0
+margin_bottom = 40.0
+value = 100.0
+texture_progress = ExtResource( 4 )
 [connection signal="body_entered" from="SightRange" to="." method="_on_SightRange_body_entered"]
+[connection signal="body_exited" from="SightRange" to="." method="_on_SightRange_body_exited"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_Timer_timeout"]
