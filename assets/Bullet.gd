@@ -16,5 +16,8 @@ func _on_Area_body_entered(body):
 		body.update_bar()
 		body.health -= DAMAGE
 		queue_free()
+		if body.health <= 0 and body.is_in_group("Player"):
+			body.emit_signal("die")
+			body.queue_free()
 	else:
 		queue_free()

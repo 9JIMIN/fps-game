@@ -1,5 +1,7 @@
 extends KinematicBody
 
+signal die
+
 # move walk_speed
 var walk_speed = 20
 var jump = 10
